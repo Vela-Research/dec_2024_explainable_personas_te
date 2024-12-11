@@ -3,28 +3,14 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.cluster import AgglomerativeClustering
-from sklearn.tree import DecisionTreeClassifier
-import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
+import matplotlib.pyplot as plt
 
 
 class TwoStageFounderAnalysis:
     def __init__(self, n_main_clusters=5, min_subcluster_size=15,
                  real_world_success_rate=0.019, success_column='success'):
-        """
-        Initialize the two-stage founder analysis.
-
-        Parameters:
-        -----------
-        n_main_clusters : int
-            Number of main clusters to create
-        min_subcluster_size : int
-            Minimum number of samples required in each subcluster
-        real_world_success_rate : float
-            Real-world base success rate for normalization
-        success_column : str
-            Name of the column indicating success (0/1)
-        """
         self.n_main_clusters = n_main_clusters
         self.min_subcluster_size = min_subcluster_size
         self.real_world_success_rate = real_world_success_rate
@@ -32,6 +18,9 @@ class TwoStageFounderAnalysis:
         self.dataset_success_rate = None
         self.imputer = SimpleImputer(strategy='median')
         self.scaler = StandardScaler()
+        self.cluster_trees = {}
+        self.main_cluster_labels = None
+        self.X = None
 
     def preprocess_data(self, df):
         """Preprocess the data and calculate dataset statistics"""
@@ -118,16 +107,16 @@ class TwoStageFounderAnalysis:
         """Create interpretable subclusters within each main cluster"""
         print("Creating subclusters...")
         results = []
+        subcluster_counter = 1
+        self.X = X
+        self.main_cluster_labels = main_cluster_labels
 
         for cluster in range(self.n_main_clusters):
-
-            subcluster_counter = 1
-
             # Get data for this main cluster
             mask = main_cluster_labels == cluster
             X_cluster = X[mask]
             y_cluster = df[self.success_column].values[mask]
-            df_cluster = df[mask]
+            df_cluster = df[mask]  
 
             if len(X_cluster) < self.min_subcluster_size:
                 continue
@@ -143,16 +132,37 @@ class TwoStageFounderAnalysis:
                 continue
 
             tree.fit(X_cluster, y_cluster)
+            self.cluster_trees[cluster] = tree
+
+            plt.figure(figsize=(20, 10))
+
+            def transform_threshold(value, feature_idx):
+                return value * self.scaler.scale_[feature_idx] + self.scaler.mean_[feature_idx]
+
+            tree_copy = DecisionTreeClassifier()
+            tree_copy.__dict__ = tree.__dict__.copy()
+            for i in range(tree.tree_.node_count):
+                if tree.tree_.feature[i] >= 0:  # 不是叶节点
+                    feature_idx = tree.tree_.feature[i]
+                    tree_copy.tree_.threshold[i] = transform_threshold(
+                        tree.tree_.threshold[i],
+                        feature_idx
+                    )
+
+            plot_tree(tree_copy,
+                      feature_names=self.feature_names,
+                      class_names=['Failure', 'Success'],
+                      filled=True,
+                      rounded=True,
+                      fontsize=10)
+            plt.savefig(f'decision_tree_cluster_{cluster + 1}.png', bbox_inches='tight', dpi=300)
+            plt.close()
 
             # Analyze leaf nodes
             leaf_ids = tree.apply(X_cluster)
             unique_leaves = np.unique(leaf_ids)
 
-
-            leaf_sizes = [(leaf, (leaf_ids == leaf).sum()) for leaf in unique_leaves]
-            sorted_leaves = sorted(leaf_sizes, key=lambda x: x[1], reverse=True)
-
-            for leaf, _ in sorted_leaves:
+            for leaf in unique_leaves:
                 leaf_mask = leaf_ids == leaf
                 leaf_samples = X_cluster[leaf_mask]
                 leaf_y = y_cluster[leaf_mask]
@@ -164,40 +174,131 @@ class TwoStageFounderAnalysis:
                 # Calculate basic metrics
                 success_rate = leaf_y.mean()
 
-                # Calculate feature characteristics
+                # Calculate feature characteristics relative to main cluster
                 feature_stats = []
                 for feature in self.feature_names:
-                    feature_mean = leaf_df[feature].mean()
-                    overall_mean = df[feature].mean()
-                    feature_std = df[feature].std()
+                    main_cluster_mean = df_cluster[feature].mean()
+                    main_cluster_std = df_cluster[feature].std()
 
-                    if len(leaf_df) > 1:
-                        z_score = (feature_mean - overall_mean) / (feature_std / np.sqrt(len(leaf_df)))
+                    feature_mean = leaf_df[feature].mean()
+
+                    if len(leaf_df) > 1 and main_cluster_std > 0:
+                        z_score = (feature_mean - main_cluster_mean) / (main_cluster_std / np.sqrt(len(leaf_df)))
 
                         if abs(z_score) > 1.96:  # 95% confidence level
                             feature_stats.append({
                                 'feature': feature,
-                                'diff': feature_mean - overall_mean,
+                                'diff': feature_mean - main_cluster_mean,
                                 'z_score': z_score
                             })
 
-
-                subcluster_id = f"{cluster + 1}.{subcluster_counter}"
-                subcluster_counter += 1
-
                 results.append({
                     'main_cluster_id': cluster + 1,
-                    'subcluster_id': subcluster_id,
+                    'subcluster_id': f"{cluster + 1}.{subcluster_counter}",
                     'size': len(leaf_samples),
                     'success_count': leaf_y.sum(),
                     'success_rate': success_rate,
                     'normalized_success_rate': success_rate * (
                                 self.real_world_success_rate / self.dataset_success_rate),
-                    'significant_features': sorted(feature_stats, key=lambda x: abs(x['z_score']), reverse=True)[:5]
+                    'significant_features': sorted(feature_stats, key=lambda x: abs(x['z_score']), reverse=True)[:10]
                 })
 
         return pd.DataFrame(results)
 
+    def classify_new_founder(self, new_founder_data):
+        """
+        Classify a new founder into main cluster and subcluster with detailed explanation
+        """
+        print("Starting classification process for new founder...")
+
+        original_values = new_founder_data[self.feature_names].iloc[0]
+
+        new_founder_features = new_founder_data[self.feature_names]
+        new_founder_features = self.imputer.transform(new_founder_features)
+        new_founder_features = self.scaler.transform(new_founder_features)
+
+        # 2. Calculate distances to each main cluster centroid
+        distances = {}
+        cluster_sizes = {}
+        for cluster in range(self.n_main_clusters):
+            # Get cluster data
+            mask = self.main_cluster_labels == cluster
+            cluster_data = self.X[mask]
+
+            # Calculate centroid
+            centroid = cluster_data.mean(axis=0)
+
+            # Calculate Euclidean distance
+            distance = np.linalg.norm(new_founder_features - centroid)
+            distances[cluster + 1] = distance
+            cluster_sizes[cluster + 1] = len(cluster_data)
+
+        # Print distances to all clusters
+        print("\nDistances to main clusters:")
+        for cluster, distance in sorted(distances.items(), key=lambda x: x[1]):
+            print(f"Cluster {cluster}: {distance:.3f} (size: {cluster_sizes[cluster]} samples)")
+
+        # Find closest cluster
+        closest_cluster = min(distances.items(), key=lambda x: x[1])[0]
+        print(f"\nClosest cluster: Cluster {closest_cluster}")
+
+        # 3. Use decision tree to find subcluster
+        print("\nFollowing decision tree path:")
+        mask = self.main_cluster_labels == (closest_cluster - 1)
+        cluster_tree = self.cluster_trees[closest_cluster - 1]
+
+        node = 0
+        path = []
+        while True:
+            if node == -1:
+                break
+
+            feature_idx = cluster_tree.tree_.feature[node]
+            threshold = cluster_tree.tree_.threshold[node]
+            feature_name = self.feature_names[feature_idx]
+
+            scaled_value = new_founder_features[0, feature_idx]
+            original_value = original_values[feature_name]
+
+            original_threshold = (
+                    threshold * self.scaler.scale_[feature_idx] +
+                    self.scaler.mean_[feature_idx]
+            )
+
+            print(f"\nChecking {feature_name}:")
+            print(f"Value = {original_value:.2f} (scaled: {scaled_value:.2f})")
+            print(f"Threshold = {original_threshold:.2f} (scaled: {threshold:.2f})")
+
+            if scaled_value <= threshold:
+                print(f"Decision: {original_value:.2f} <= {original_threshold:.2f}, going left")
+                path.append(f"{feature_name} <= {original_threshold:.2f}")
+                node = cluster_tree.tree_.children_left[node]
+            else:
+                print(f"Decision: {original_value:.2f} > {original_threshold:.2f}, going right")
+                path.append(f"{feature_name} > {original_threshold:.2f}")
+                node = cluster_tree.tree_.children_right[node]
+
+        # Get leaf node statistics
+        leaf_id = node
+        leaf_values = cluster_tree.tree_.value[leaf_id][0]
+        total_samples = sum(leaf_values)
+        success_rate = leaf_values[1] / total_samples if total_samples > 0 else 0
+
+        print("\nClassification Results:")
+        print(f"Main Cluster: {closest_cluster}")
+        print(f"Decision Path: {' AND '.join(path)}")
+        print(f"Leaf Node Statistics:")
+        print(f"- Success rate in leaf: {success_rate:.1%}")
+
+        return {
+            'main_cluster': closest_cluster,
+            'distances': distances,
+            'decision_path': path,
+            'leaf_statistics': {
+                'total_samples': total_samples,
+                'success_rate': success_rate
+            }
+        }
     def generate_summary_tables(self, main_clusters, subclusters):
         """Generate summary tables with all statistics"""
         print("Generating summary tables...")
@@ -285,6 +386,70 @@ class TwoStageFounderAnalysis:
 
         return main_summary, sub_summary
 
+    def get_decision_path(self, tree, feature_names, leaf_id):
+        """Get decision path to a specific leaf node with sample counts and purity at each step"""
+        n_nodes = tree.tree_.node_count
+        children_left = tree.tree_.children_left
+        children_right = tree.tree_.children_right
+        feature = tree.tree_.feature
+        threshold = tree.tree_.threshold
+        values = tree.tree_.value
+        gini = tree.tree_.impurity
+
+        # Find path from root to target leaf node
+        path = []
+        node_id = 0  # Start from root
+        current_path = []
+
+        while node_id != leaf_id:
+            # Get current node information
+            fail_samples = int(values[node_id][0][0])
+            success_samples = int(values[node_id][0][1])
+            current_gini = gini[node_id]
+
+            # Get feature name and threshold for current node
+            feature_idx = feature[node_id]
+            feature_name = feature_names[feature_idx]
+
+            original_threshold = (
+                    threshold[node_id] * self.scaler.scale_[feature_idx] +
+                    self.scaler.mean_[feature_idx]
+            )
+
+            # Create node info
+            node_info = (f"{feature_name} (fail: {fail_samples}, success: {success_samples}, "
+                         f"gini: {current_gini:.3f})")
+            current_path.append(node_info)
+
+            # Determine path direction
+            if leaf_id in self._get_descendants(children_left, node_id):
+                path.append(current_path[-1] + f" <= {original_threshold:.2f}")
+                node_id = children_left[node_id]
+            else:
+                path.append(current_path[-1] + f" > {original_threshold:.2f}")
+                node_id = children_right[node_id]
+
+        # Add leaf node information
+        fail_samples = int(values[leaf_id][0][0])
+        success_samples = int(values[leaf_id][0][1])
+        leaf_gini = gini[leaf_id]
+        path.append(f"Final Node: fail: {fail_samples}, success: {success_samples}, gini: {leaf_gini:.3f}")
+
+        return " → ".join(path)
+
+    def _get_descendants(self, children_array, node_id):
+        """Get all descendant nodes of a node"""
+        descendants = []
+        to_check = [children_array[node_id]]
+
+        while to_check:
+            current = to_check.pop(0)
+            if current != -1:
+                descendants.append(current)
+                if current < len(children_array):
+                    to_check.append(children_array[current])
+
+        return descendants
     def save_summary_tables(self, main_summary, sub_summary):
         """Save summary tables to files and console"""
         print("\nSaving results...")
@@ -428,6 +593,46 @@ class TwoStageFounderAnalysis:
         print("\nAnalysis complete!")
         return main_cluster_results, subcluster_results, main_cluster_labels
 
+    def extract_decision_path(self, tree, feature_names, leaf_id):
+        """Extract the decision path leading to a specific leaf node"""
+        n_nodes = tree.tree_.node_count
+        children_left = tree.tree_.children_left
+        children_right = tree.tree_.children_right
+        feature = tree.tree_.feature
+        threshold = tree.tree_.threshold
+
+        # Find the path to the leaf
+        node_id = 0  # Start from root
+        path = []
+        while node_id != leaf_id:
+            # Get feature and threshold for this node
+            feature_name = feature_names[feature[node_id]]
+            threshold_value = threshold[node_id]
+
+            # Check if we should go left or right
+            if leaf_id in self._get_all_children(children_left, node_id):
+                path.append(f"{feature_name} <= {threshold_value:.2f}")
+                node_id = children_left[node_id]
+            else:
+                path.append(f"{feature_name} > {threshold_value:.2f}")
+                node_id = children_right[node_id]
+
+        return " AND ".join(path)
+
+    def _get_all_children(self, children_array, node_id):
+        """Helper function to get all children of a node"""
+        children = []
+        to_visit = [children_array[node_id]]
+
+        while to_visit:
+            current = to_visit.pop()
+            if current != -1:  # -1 indicates leaf
+                children.append(current)
+                if current < len(children_array):
+                    to_visit.append(children_array[current])
+
+        return children
+
 
 df = pd.read_csv("(December 2024)_ Founders data - feature_engineered.csv")
 
@@ -438,3 +643,8 @@ analyzer = TwoStageFounderAnalysis(
 )
 
 main_clusters, subclusters, labels = analyzer.fit_transform(df)
+
+# Test a new founder
+new_founder = pd.DataFrame([df.iloc[5]])
+
+results = analyzer.classify_new_founder(new_founder)
