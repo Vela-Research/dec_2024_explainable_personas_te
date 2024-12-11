@@ -1,6 +1,6 @@
 # Feature_Engineering
 Clustering and Predict  Entrepreneur
 
-Based on association rules mining
+Based on association rules mining (vela.py)
 
-Based on hierarchical clustering and decision tree
+Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis)
