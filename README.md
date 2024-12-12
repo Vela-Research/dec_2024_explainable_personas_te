@@ -121,4 +121,3 @@ results = analyzer.classify_new_founder(new_founder)
 ```
 
 By following these steps, you can easily apply hierarchical founder analysis to your dataset, understand the logic behind cluster assignments, and classify new individuals in a fully interpretable manner.
-```
