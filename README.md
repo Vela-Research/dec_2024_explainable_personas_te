@@ -99,7 +99,7 @@ pip install numpy pandas scikit-learn matplotlib
 
 ```python
 import pandas as pd
-from your_analysis_module import TwoStageFounderAnalysis
+from Hierarchical Founder Analysis.py import TwoStageFounderAnalysis
 
 df = pd.read_csv("Data.csv")
 analyzer = TwoStageFounderAnalysis(
