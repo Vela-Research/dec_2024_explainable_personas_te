@@ -10,7 +10,7 @@ Based on hierarchical clustering and decision tree (Hierarchical Founder Analysi
 
 ## Overview
 
-This program performs a hierarchical analysis on entrepreneur data. It first identifies main clusters, then within each main cluster uses a decision tree to find and characterize subclusters. It extracts decision rules, examines leaf nodes to identify significant features, and can combine clusters for further analysis. The output includes visualization files, rule text files, an Excel summary, and returned arrays/dataframes for further inspection.
+This program performs a hierarchical analysis on entrepreneur data to discover and understand patterns that lead to success. It first identifies main clusters, then within each main cluster, uses a decision tree to find and characterize subclusters. Unlike black-box models, this approach is inherently **interpretable**: the decision trees produce human-readable rules that clearly explain why certain entrepreneurs fall into particular subgroups. By examining these rules and associated metrics, you can understand the key features driving cluster formation and subcluster differentiation.
 
 ## Features
 
@@ -23,6 +23,14 @@ This program performs a hierarchical analysis on entrepreneur data. It first ide
    - `decision_rules_cluster_X.txt`: A text file containing decision rules for each main cluster.
    - `founder_clusters_analysis.xlsx`: An Excel file summarizing main clusters, subclusters, and combined clusters.
    - Results in memory: Arrays/lists of main clusters, subclusters, and labels returned by the `fit_transform` method.
+6. **Classifying a New Entrepreneur**: After fitting, you can apply the model to a new entrepreneur’s feature data to determine which main cluster and subcluster they would belong to, leveraging the explicit, interpretable rules from the decision trees.
+
+## Interpretability
+
+This method is highly interpretable:
+- Each subcluster is defined by transparent, human-readable decision rules derived from decision trees.
+- Visualized decision trees and exported rule files help you understand the logical path from features to cluster membership.
+- Identified significant features help explain why certain groups differ from the overall population.
 
 ## Requirements
 
@@ -40,7 +48,7 @@ pip install numpy pandas scikit-learn matplotlib
 
 ## Input Data Requirements
 
-1. **Dataset `df`**: A `pandas.DataFrame` containing all the required feature columns and a binary target column specified by `success_column`.
+1. **Dataset `df`**: A `pandas.DataFrame` containing all relevant feature columns and a binary target column indicated by `success_column`.
 2. **Parameters**:
    - `success_column`: The name of the binary column indicating success/failure.
    - `n_main_clusters`: The number of main clusters to identify.
@@ -50,11 +58,11 @@ pip install numpy pandas scikit-learn matplotlib
 ## Usage Steps
 
 1. **Prepare Your Data**:
-   - Ensure `df` contains the relevant features and a binary success/failure column.
+   - Ensure `df` contains all required features and a binary success/failure column.
 
 2. **Instantiate and Configure**:
-   - Create an instance of `TwoStageFounderAnalysis` (or your analysis class).
-   - Set the required parameters, such as `success_column`, `n_main_clusters`, `min_subcluster_size`, and `real_world_success_rate`.
+   - Create an instance of `TwoStageFounderAnalysis`.
+   - Set `success_column`, `n_main_clusters`, `min_subcluster_size`, and `real_world_success_rate`.
 
 3. **Run the Program**:
    - Call the `fit_transform(df)` method on your analyzer instance.
@@ -62,11 +70,24 @@ pip install numpy pandas scikit-learn matplotlib
      - Identify main clusters.
      - Train decision trees for each main cluster.
      - Generate visualization images, decision rule text files, and the Excel summary.
-     - Return the main clusters, subclusters, and labels.
+     - Return `main_clusters`, `subclusters`, and `labels`.
 
 4. **Check the Results**:
    - After execution, you will find files like `decision_tree_cluster_1.png`, `decision_rules_cluster_1.txt`, and `founder_clusters_analysis.xlsx` in the current directory.
-   - The variables returned by `fit_transform` (main_clusters, subclusters, labels) can be further inspected or used for additional analysis.
+   - The returned `main_clusters`, `subclusters`, and `labels` provide information on the hierarchical structure discovered.
+
+5. **Classify a New Entrepreneur**:
+   - After fitting, you can use the trained model (stored within the analyzer) to predict which cluster a new entrepreneur would belong to by passing their feature data through the decision trees.  
+   - For example:  
+     ```python
+     new_entrepreneur = pd.DataFrame([{
+         "feature1": 0.5,
+         "feature2": 2.0,
+         "feature3": -1.0
+     }])
+     results = analyzer.classify_new_founder(new_founder)
+     ```
+   - This will tell you exactly which main cluster and subcluster they are most similar to, and you can refer to the decision rules to understand why.
 
 ## Notes
 
@@ -89,7 +110,15 @@ analyzer = TwoStageFounderAnalysis(
 )
 
 main_clusters, subclusters, labels = analyzer.fit_transform(df)
+
+# Classify a new entrepreneur
+new_entrepreneur = pd.DataFrame([{
+    "feature1": 1.2,
+    "feature2": 0.3,
+    "feature3": 5.0
+}])
+results = analyzer.classify_new_founder(new_founder)
 ```
 
-This will run the hierarchical founder analysis on `Data.csv` and produce the described outputs.
+By following these steps, you can easily apply hierarchical founder analysis to your dataset, understand the logic behind cluster assignments, and classify new individuals in a fully interpretable manner.
 ```
