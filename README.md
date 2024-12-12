@@ -1,10 +1,9 @@
 # Feature_Engineering
 Clustering and Predict  Entrepreneur
 
-Based on association rules mining (vela.py)
+# Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis.py in the Founder Analysis_with_path dir.)
 
-Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis.py) in the Founder Analysis_with_path directory
-
+# Based on association rules mining (main.py)
 
 # README (for Hierarchical Founder Analysis)
 
@@ -138,3 +137,149 @@ The decision path can be interpreted as:
 - Above average personal branding
 
 Using these results, you can understand both the classification and the reasoning behind it, making it valuable for both prediction and insight generation.
+
+# README (For Association Rules Mining)
+
+This project is designed to analyze founder characteristics and predict success probabilities using frequent pattern mining and clustering techniques. It implements the Apriori algorithm for finding frequent itemsets in founder data and uses statistical analysis to identify patterns associated with founder success.
+
+## Features
+
+- Frequent pattern mining using Apriori algorithm
+- Cluster analysis of founder characteristics
+- Success probability prediction
+- Real-world probability scaling
+- Confidence interval calculations
+- Detailed clustering analysis with visualization
+- Evaluation of prediction accuracy
+
+## Project Structure
+
+```
+.
+├── config.py               # Configuration parameters
+├── founder_clustering.py   # Clustering analysis implementation
+├── main.py                # Main analysis pipeline
+└── requirements.txt       # Project dependencies
+```
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd founder-analysis
+```
+
+2. Install required packages:
+```bash
+pip install -r requirements.txt
+```
+
+Required packages:
+- pandas
+- numpy
+- mlxtend
+- scikit-learn
+- tqdm
+- tabulate
+
+## Usage
+
+### Basic Analysis
+
+```python
+from config import AnalysisConfig
+from main import FounderAnalyzer
+
+# Configure analysis parameters
+config = AnalysisConfig(
+    base_feature=None,           # Filter by specific feature
+    feature_value=None,          # Value of the base feature
+    exclude_features=None,       # Features to exclude
+    persona=None,               # Filter by persona
+    feature_combination=1,       # Max number of features in combinations
+    min_sample=30,              # Minimum sample size
+    sample_size=8800,           # Total sample size
+    decreasing_prob=True,       # Sort by decreasing probability
+    include_negative=False,      # Include negative indicators
+    cluster_weights=[5, 3, 0, 0, 0, 0]  # Weights for different clusters
+)
+
+# Initialize analyzer and run analysis
+analyzer = FounderAnalyzer(config)
+analyzer.analyze("your_data.csv")
+```
+
+### Saving and Loading Clusters
+
+```python
+# Save clustering results
+analyzer.save_clusters('cluster_results.json')
+
+# Load existing clustering results
+analyzer.load_clusters('cluster_results.json')
+```
+
+### Predicting New Founder Success
+
+```python
+# Example founder features
+founder_features = {
+    'feature1': 'value1',
+    'feature2': 'value2',
+    # ... more features
+}
+
+analyzer.predict_new_founder(founder_features)
+```
+
+### Evaluating Predictions
+
+```python
+results = analyzer.evaluate_predictions("your_data.csv", start_idx=0, end_idx=8800)
+```
+
+## Configuration Options
+
+### AnalysisConfig Parameters
+
+- `base_feature`: Filter analysis by a specific feature
+- `feature_value`: Value of the base feature to filter by
+- `exclude_features`: List of features to exclude from analysis
+- `persona`: Filter founders by specific persona
+- `feature_combination`: Maximum number of features to combine (1-3 recommended)
+- `min_sample`: Minimum sample size for pattern consideration
+- `sample_size`: Total sample size to analyze
+- `num_results`: Number of top results to display
+- `decreasing_prob`: Sort by decreasing probability if True
+- `confidence_level`: Confidence level for intervals (default: 0.95)
+- `real_world_scaling`: Scaling factor for real-world probabilities
+- `include_negative`: Include negative indicators in analysis
+- `cluster_weights`: Weights for different success clusters [extremely_high, very_high, high, low, very_low, extremely_low]
+
+## Data Format
+
+The input CSV file should contain founder data with the following columns:
+- `founder_uuid`: Unique identifier for each founder
+- `name`: Founder name
+- `org_name`: Organization name
+- `success`: Binary indicator of success (0 or 1)
+- Additional feature columns containing founder characteristics
+
+## Output
+
+The analysis provides:
+1. Frequent patterns in founder characteristics
+2. Success probabilities with confidence intervals
+3. Cluster analysis results
+4. Real-world scaled probabilities
+5. Detailed cluster statistics and visualization
+
+## Notes
+
+- Adjust `min_sample` and `sample_size` based on your dataset size
+- The `cluster_weights` parameter can be tuned to adjust the importance of different success clusters in predictions
+- Use `include_negative=True` if you want to consider negative indicators in the analysis
+- The real-world scaling factor can be adjusted based on your domain knowledge
+
+
