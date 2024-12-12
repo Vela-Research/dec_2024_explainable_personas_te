@@ -78,16 +78,7 @@ pip install numpy pandas scikit-learn matplotlib
 
 5. **Classify a New Entrepreneur**:
    - After fitting, you can use the trained model (stored within the analyzer) to predict which cluster a new entrepreneur would belong to by passing their feature data through the decision trees.  
-   - For example:  
-     ```python
-     new_entrepreneur = pd.DataFrame([{
-         "feature1": 0.5,
-         "feature2": 2.0,
-         "feature3": -1.0
-     }])
-     results = analyzer.classify_new_founder(new_founder)
-     ```
-   - This will tell you exactly which main cluster and subcluster they are most similar to, and you can refer to the decision rules to understand why.
+
 
 ## Notes
 
@@ -110,14 +101,40 @@ analyzer = TwoStageFounderAnalysis(
 )
 
 main_clusters, subclusters, labels = analyzer.fit_transform(df)
-
-# Classify a new entrepreneur
-new_entrepreneur = pd.DataFrame([{
-    "feature1": 1.2,
-    "feature2": 0.3,
-    "feature3": 5.0
-}])
-results = analyzer.classify_new_founder(new_founder)
 ```
 
-By following these steps, you can easily apply hierarchical founder analysis to your dataset, understand the logic behind cluster assignments, and classify new individuals in a fully interpretable manner.
+# Example:  
+
+     ```python
+     new_entrepreneur = pd.DataFrame([{
+         "feature1": 0.5,
+         "feature2": 2.0,
+         "feature3": -1.0
+     }])
+     results = analyzer.classify_new_founder(new_founder)
+     ```
+
+     ### Example Output
+
+When you run the classifier, you'll get detailed results like this:
+
+```python
+Classification Results:
+Main Cluster: 2
+Decision Path: previous_startup_funding_experience_as_ceo <= 3.50 AND education_institution <= 3.50 AND nasdaq_leadership <= 0.50 AND personal_branding > -0.49
+Leaf Node Statistics:
+- Success rate in leaf: 56.0%
+```
+
+This output tells you:
+1. The founder belongs to Main Cluster 2
+2. The specific decision path taken through the tree
+3. The success rate for similar founders in this leaf node (56.0%)
+
+The decision path can be interpreted as:
+- Raised less than 50M USD as CEO
+- Not from a top-20 ranked university
+- No leadership role in NASDAQ companies
+- Above average personal branding
+
+Using these results, you can understand both the classification and the reasoning behind it, making it valuable for both prediction and insight generation.
