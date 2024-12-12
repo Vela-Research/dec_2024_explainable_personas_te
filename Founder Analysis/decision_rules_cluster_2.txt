@@ -1,0 +1,19 @@
+|--- previous_startup_funding_experience_as_ceo <= 4.01
+|   |--- education_institution <= 1.26
+|   |   |--- nasdaq_leadership <= 0.77
+|   |   |   |--- class: 0
+|   |   |--- nasdaq_leadership >  0.77
+|   |   |   |--- class: 0
+|   |--- education_institution >  1.26
+|   |   |--- number_of_companies <= -0.28
+|   |   |   |--- class: 0
+|   |   |--- number_of_companies >  -0.28
+|   |   |   |--- class: 0
+|--- previous_startup_funding_experience_as_ceo >  4.01
+|   |--- education_institution <= 1.26
+|   |   |--- education_level <= 0.02
+|   |   |   |--- class: 1
+|   |   |--- education_level >  0.02
+|   |   |   |--- class: 0
+|   |--- education_institution >  1.26
+|   |   |--- class: 1

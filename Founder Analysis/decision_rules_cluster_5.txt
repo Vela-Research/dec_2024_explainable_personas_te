@@ -1,0 +1,10 @@
+|--- previous_startup_funding_experience_as_ceo <= 4.01
+|   |--- big_tech_position <= 0.26
+|   |   |--- worked_at_consultancy <= 0.71
+|   |   |   |--- class: 0
+|   |   |--- worked_at_consultancy >  0.71
+|   |   |   |--- class: 1
+|   |--- big_tech_position >  0.26
+|   |   |--- class: 1
+|--- previous_startup_funding_experience_as_ceo >  4.01
+|   |--- class: 1
