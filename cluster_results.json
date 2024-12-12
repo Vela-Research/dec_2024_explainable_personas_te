@@ -1,0 +1,1422 @@
+{
+  "cluster_results": {
+    "low_success": {
+      "size": 113,
+      "avg_success_rate": 0.09459560734037008,
+      "success_rate_range": [
+        0.03664302600472813,
+        0.13733333333333334
+      ],
+      "total_founders": 375050,
+      "common_features": [
+        [
+          "education_level_1",
+          0.008849557522123894
+        ],
+        [
+          "education_level_2",
+          0.008849557522123894
+        ],
+        [
+          "education_level_3",
+          0.008849557522123894
+        ],
+        [
+          "education_institution_1",
+          0.008849557522123894
+        ],
+        [
+          "education_institution_2",
+          0.008849557522123894
+        ]
+      ],
+      "representative_patterns": [
+        {
+          "itemset": [
+            "founder_experience_unit"
+          ],
+          "success_rate": 0.13733333333333334,
+          "num_founders": 1500
+        },
+        {
+          "itemset": [
+            "quant_experience_1"
+          ],
+          "success_rate": 0.136986301369863,
+          "num_founders": 73
+        },
+        {
+          "itemset": [
+            "technical_leadership_roles_1"
+          ],
+          "success_rate": 0.13575350823672971,
+          "num_founders": 3278
+        },
+        {
+          "itemset": [
+            "number_of_roles_13"
+          ],
+          "success_rate": 0.13513513513513514,
+          "num_founders": 37
+        },
+        {
+          "itemset": [
+            "education_awards_and_honors_1"
+          ],
+          "success_rate": 0.134765625,
+          "num_founders": 512
+        }
+      ]
+    },
+    "high_success": {
+      "size": 28,
+      "avg_success_rate": 0.1886051595006147,
+      "success_rate_range": [
+        0.14427860696517414,
+        0.23376623376623376
+      ],
+      "total_founders": 11031,
+      "common_features": [
+        [
+          "education_institution_4",
+          0.03571428571428571
+        ],
+        [
+          "industry_achievements_2",
+          0.03571428571428571
+        ],
+        [
+          "industry_achievements_3",
+          0.03571428571428571
+        ],
+        [
+          "nasdaq_company_experience_1",
+          0.03571428571428571
+        ],
+        [
+          "big_tech_experience_1",
+          0.03571428571428571
+        ]
+      ],
+      "representative_patterns": [
+        {
+          "itemset": [
+            "quant_experience_2"
+          ],
+          "success_rate": 0.23376623376623376,
+          "num_founders": 77
+        },
+        {
+          "itemset": [
+            "big_tech_position_4"
+          ],
+          "success_rate": 0.22807017543859648,
+          "num_founders": 342
+        },
+        {
+          "itemset": [
+            "nasdaq_leadership_1"
+          ],
+          "success_rate": 0.22018348623853212,
+          "num_founders": 218
+        },
+        {
+          "itemset": [
+            "nasdaq_leadership_2"
+          ],
+          "success_rate": 0.22,
+          "num_founders": 200
+        },
+        {
+          "itemset": [
+            "previous_startup_funding_experience_as_nonceo_3"
+          ],
+          "success_rate": 0.21875,
+          "num_founders": 32
+        }
+      ]
+    },
+    "very_high_success": {
+      "size": 9,
+      "avg_success_rate": 0.2892239423582827,
+      "success_rate_range": [
+        0.2543352601156069,
+        0.3225806451612903
+      ],
+      "total_founders": 1244,
+      "common_features": [
+        [
+          "google_experience_1",
+          0.1111111111111111
+        ],
+        [
+          "facebook_meta_experience_1",
+          0.1111111111111111
+        ],
+        [
+          "worked_at_consultancy_3",
+          0.1111111111111111
+        ],
+        [
+          "bigtech_leadership_2",
+          0.1111111111111111
+        ],
+        [
+          "previous_startup_funding_experience_as_nonceo_2",
+          0.1111111111111111
+        ]
+      ],
+      "representative_patterns": [
+        {
+          "itemset": [
+            "facebook_meta_experience_1"
+          ],
+          "success_rate": 0.3225806451612903,
+          "num_founders": 31
+        },
+        {
+          "itemset": [
+            "worked_at_consultancy_3"
+          ],
+          "success_rate": 0.3076923076923077,
+          "num_founders": 104
+        },
+        {
+          "itemset": [
+            "VC_experience_2"
+          ],
+          "success_rate": 0.3,
+          "num_founders": 250
+        },
+        {
+          "itemset": [
+            "bigtech_leadership_2"
+          ],
+          "success_rate": 0.29508196721311475,
+          "num_founders": 61
+        },
+        {
+          "itemset": [
+            "angel_experience_2"
+          ],
+          "success_rate": 0.2898550724637681,
+          "num_founders": 69
+        }
+      ]
+    },
+    "extremely_high_success": {
+      "size": 7,
+      "avg_success_rate": 0.5406945667428579,
+      "success_rate_range": [
+        0.3927272727272727,
+        0.6764705882352942
+      ],
+      "total_founders": 1226,
+      "common_features": [
+        [
+          "big_leadership_3",
+          0.14285714285714285
+        ],
+        [
+          "nasdaq_leadership_3",
+          0.14285714285714285
+        ],
+        [
+          "previous_startup_funding_experience_as_ceo_4",
+          0.14285714285714285
+        ],
+        [
+          "previous_startup_funding_experience_as_nonceo_4",
+          0.14285714285714285
+        ],
+        [
+          "investor_quality_prior_startup_2",
+          0.14285714285714285
+        ]
+      ],
+      "representative_patterns": [
+        {
+          "itemset": [
+            "previous_startup_funding_experience_as_nonceo_4"
+          ],
+          "success_rate": 0.6764705882352942,
+          "num_founders": 68
+        },
+        {
+          "itemset": [
+            "nasdaq_leadership_3"
+          ],
+          "success_rate": 0.6618705035971223,
+          "num_founders": 139
+        },
+        {
+          "itemset": [
+            "previous_startup_funding_experience_as_ceo_4"
+          ],
+          "success_rate": 0.6386554621848739,
+          "num_founders": 238
+        },
+        {
+          "itemset": [
+            "ipo_experience_True"
+          ],
+          "success_rate": 0.5161290322580645,
+          "num_founders": 31
+        },
+        {
+          "itemset": [
+            "tier_1_VC_experience_1"
+          ],
+          "success_rate": 0.46601941747572817,
+          "num_founders": 103
+        }
+      ]
+    },
+    "very_low_success": {
+      "size": 1,
+      "avg_success_rate": 0.03262955854126679,
+      "success_rate_range": [
+        0.03262955854126679,
+        0.03262955854126679
+      ],
+      "total_founders": 521,
+      "common_features": [
+        [
+          "persona_['L0']",
+          1.0
+        ]
+      ],
+      "representative_patterns": [
+        {
+          "itemset": [
+            "persona_['L0']"
+          ],
+          "success_rate": 0.03262955854126679,
+          "num_founders": 521
+        }
+      ]
+    }
+  },
+  "clusters": {
+    "low_success": [
+      {
+        "itemset": [
+          "education_level_1"
+        ],
+        "success_rate": 0.08348993288590605,
+        "num_founders": 3725
+      },
+      {
+        "itemset": [
+          "education_level_2"
+        ],
+        "success_rate": 0.09265536723163842,
+        "num_founders": 2655
+      },
+      {
+        "itemset": [
+          "education_level_3"
+        ],
+        "success_rate": 0.13053263315828958,
+        "num_founders": 1333
+      },
+      {
+        "itemset": [
+          "education_institution_1"
+        ],
+        "success_rate": 0.05378061767838126,
+        "num_founders": 1878
+      },
+      {
+        "itemset": [
+          "education_institution_2"
+        ],
+        "success_rate": 0.0835214446952596,
+        "num_founders": 2215
+      },
+      {
+        "itemset": [
+          "education_institution_3"
+        ],
+        "success_rate": 0.10866057019903173,
+        "num_founders": 1859
+      },
+      {
+        "itemset": [
+          "education_field_of_study_1"
+        ],
+        "success_rate": 0.03664302600472813,
+        "num_founders": 846
+      },
+      {
+        "itemset": [
+          "education_field_of_study_2"
+        ],
+        "success_rate": 0.0890295358649789,
+        "num_founders": 2370
+      },
+      {
+        "itemset": [
+          "education_field_of_study_3"
+        ],
+        "success_rate": 0.11719549641760492,
+        "num_founders": 3908
+      },
+      {
+        "itemset": [
+          "education_international_experience_1"
+        ],
+        "success_rate": 0.09774436090225563,
+        "num_founders": 1729
+      },
+      {
+        "itemset": [
+          "education_publications_and_research_1"
+        ],
+        "success_rate": 0.13446475195822455,
+        "num_founders": 1532
+      },
+      {
+        "itemset": [
+          "education_extracurricular_involvement_1"
+        ],
+        "success_rate": 0.09030837004405286,
+        "num_founders": 908
+      },
+      {
+        "itemset": [
+          "education_awards_and_honors_1"
+        ],
+        "success_rate": 0.134765625,
+        "num_founders": 512
+      },
+      {
+        "itemset": [
+          "number_of_roles_1"
+        ],
+        "success_rate": 0.04950495049504951,
+        "num_founders": 909
+      },
+      {
+        "itemset": [
+          "number_of_roles_2"
+        ],
+        "success_rate": 0.07840772014475271,
+        "num_founders": 829
+      },
+      {
+        "itemset": [
+          "number_of_roles_3"
+        ],
+        "success_rate": 0.09555741827326068,
+        "num_founders": 1193
+      },
+      {
+        "itemset": [
+          "number_of_roles_4"
+        ],
+        "success_rate": 0.10611205432937182,
+        "num_founders": 1178
+      },
+      {
+        "itemset": [
+          "number_of_roles_5"
+        ],
+        "success_rate": 0.1061792863359443,
+        "num_founders": 1149
+      },
+      {
+        "itemset": [
+          "number_of_roles_6"
+        ],
+        "success_rate": 0.10505450941526263,
+        "num_founders": 1009
+      },
+      {
+        "itemset": [
+          "number_of_roles_7"
+        ],
+        "success_rate": 0.08859060402684564,
+        "num_founders": 745
+      },
+      {
+        "itemset": [
+          "number_of_roles_8"
+        ],
+        "success_rate": 0.08928571428571429,
+        "num_founders": 448
+      },
+      {
+        "itemset": [
+          "number_of_roles_9"
+        ],
+        "success_rate": 0.10774410774410774,
+        "num_founders": 297
+      },
+      {
+        "itemset": [
+          "number_of_roles_10"
+        ],
+        "success_rate": 0.10891089108910891,
+        "num_founders": 202
+      },
+      {
+        "itemset": [
+          "number_of_roles_11"
+        ],
+        "success_rate": 0.09815950920245399,
+        "num_founders": 163
+      },
+      {
+        "itemset": [
+          "number_of_roles_12"
+        ],
+        "success_rate": 0.125,
+        "num_founders": 72
+      },
+      {
+        "itemset": [
+          "number_of_roles_13"
+        ],
+        "success_rate": 0.13513513513513514,
+        "num_founders": 37
+      },
+      {
+        "itemset": [
+          "number_of_companies_1"
+        ],
+        "success_rate": 0.061507936507936505,
+        "num_founders": 1008
+      },
+      {
+        "itemset": [
+          "number_of_companies_2"
+        ],
+        "success_rate": 0.0820969337289812,
+        "num_founders": 1011
+      },
+      {
+        "itemset": [
+          "number_of_companies_3"
+        ],
+        "success_rate": 0.09742790335151988,
+        "num_founders": 1283
+      },
+      {
+        "itemset": [
+          "number_of_companies_4"
+        ],
+        "success_rate": 0.09830508474576272,
+        "num_founders": 1180
+      },
+      {
+        "itemset": [
+          "number_of_companies_5"
+        ],
+        "success_rate": 0.11288963774220724,
+        "num_founders": 1187
+      },
+      {
+        "itemset": [
+          "number_of_companies_6"
+        ],
+        "success_rate": 0.106,
+        "num_founders": 1000
+      },
+      {
+        "itemset": [
+          "number_of_companies_7"
+        ],
+        "success_rate": 0.08431952662721894,
+        "num_founders": 676
+      },
+      {
+        "itemset": [
+          "number_of_companies_8"
+        ],
+        "success_rate": 0.09693877551020408,
+        "num_founders": 392
+      },
+      {
+        "itemset": [
+          "number_of_companies_9"
+        ],
+        "success_rate": 0.10915492957746478,
+        "num_founders": 284
+      },
+      {
+        "itemset": [
+          "number_of_companies_10"
+        ],
+        "success_rate": 0.07017543859649122,
+        "num_founders": 114
+      },
+      {
+        "itemset": [
+          "number_of_companies_11"
+        ],
+        "success_rate": 0.0990990990990991,
+        "num_founders": 111
+      },
+      {
+        "itemset": [
+          "industry_achievements_1"
+        ],
+        "success_rate": 0.11036036036036036,
+        "num_founders": 888
+      },
+      {
+        "itemset": [
+          "big_company_experience_1"
+        ],
+        "success_rate": 0.12566641279512566,
+        "num_founders": 3939
+      },
+      {
+        "itemset": [
+          "amazon_experience_1"
+        ],
+        "success_rate": 0.07692307692307693,
+        "num_founders": 39
+      },
+      {
+        "itemset": [
+          "big_tech_position_2"
+        ],
+        "success_rate": 0.1165644171779141,
+        "num_founders": 163
+      },
+      {
+        "itemset": [
+          "career_growth_1"
+        ],
+        "success_rate": 0.10284920083391244,
+        "num_founders": 7195
+      },
+      {
+        "itemset": [
+          "moving_around_1"
+        ],
+        "success_rate": 0.06338028169014084,
+        "num_founders": 284
+      },
+      {
+        "itemset": [
+          "international_work_experience_1"
+        ],
+        "success_rate": 0.0933673469387755,
+        "num_founders": 1960
+      },
+      {
+        "itemset": [
+          "worked_at_consultancy_1"
+        ],
+        "success_rate": 0.04265402843601896,
+        "num_founders": 211
+      },
+      {
+        "itemset": [
+          "worked_at_consultancy_2"
+        ],
+        "success_rate": 0.11377245508982035,
+        "num_founders": 334
+      },
+      {
+        "itemset": [
+          "worked_at_bank_2"
+        ],
+        "success_rate": 0.09217877094972067,
+        "num_founders": 358
+      },
+      {
+        "itemset": [
+          "patents_inventions_1"
+        ],
+        "success_rate": 0.07887323943661972,
+        "num_founders": 355
+      },
+      {
+        "itemset": [
+          "technical_skills_1"
+        ],
+        "success_rate": 0.10380892912894162,
+        "num_founders": 6406
+      },
+      {
+        "itemset": [
+          "technical_publications_1"
+        ],
+        "success_rate": 0.10975609756097561,
+        "num_founders": 410
+      },
+      {
+        "itemset": [
+          "technical_leadership_roles_1"
+        ],
+        "success_rate": 0.13575350823672971,
+        "num_founders": 3278
+      },
+      {
+        "itemset": [
+          "bigtech_leadership_1"
+        ],
+        "success_rate": 0.1125,
+        "num_founders": 80
+      },
+      {
+        "itemset": [
+          "number_of_leadership_roles_1"
+        ],
+        "success_rate": 0.06669498725573492,
+        "num_founders": 2354
+      },
+      {
+        "itemset": [
+          "number_of_leadership_roles_2"
+        ],
+        "success_rate": 0.10993044822256569,
+        "num_founders": 5176
+      },
+      {
+        "itemset": [
+          "being_lead_of_nonprofits_1"
+        ],
+        "success_rate": 0.08847497089639116,
+        "num_founders": 859
+      },
+      {
+        "itemset": [
+          "startup_experience_1"
+        ],
+        "success_rate": 0.09378806333739342,
+        "num_founders": 7389
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_ceo_1"
+        ],
+        "success_rate": 0.06597671410090557,
+        "num_founders": 773
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_ceo_2"
+        ],
+        "success_rate": 0.1015625,
+        "num_founders": 256
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_nonceo_1"
+        ],
+        "success_rate": 0.0759493670886076,
+        "num_founders": 158
+      },
+      {
+        "itemset": [
+          "ceo_experience_1"
+        ],
+        "success_rate": 0.09003215434083602,
+        "num_founders": 3732
+      },
+      {
+        "itemset": [
+          "investor_quality_prior_startup_1"
+        ],
+        "success_rate": 0.0836940836940837,
+        "num_founders": 693
+      },
+      {
+        "itemset": [
+          "quant_experience_1"
+        ],
+        "success_rate": 0.136986301369863,
+        "num_founders": 73
+      },
+      {
+        "itemset": [
+          "press_media_coverage_count_1"
+        ],
+        "success_rate": 0.12235817575083426,
+        "num_founders": 899
+      },
+      {
+        "itemset": [
+          "speaker_influence_1"
+        ],
+        "success_rate": 0.10408163265306122,
+        "num_founders": 490
+      },
+      {
+        "itemset": [
+          "speaker_influence_2"
+        ],
+        "success_rate": 0.12546125461254612,
+        "num_founders": 271
+      },
+      {
+        "itemset": [
+          "professional_athlete_1"
+        ],
+        "success_rate": 0.08695652173913043,
+        "num_founders": 92
+      },
+      {
+        "itemset": [
+          "languages_1"
+        ],
+        "success_rate": 0.0690846286701209,
+        "num_founders": 1158
+      },
+      {
+        "itemset": [
+          "languages_2"
+        ],
+        "success_rate": 0.07502287282708142,
+        "num_founders": 1093
+      },
+      {
+        "itemset": [
+          "languages_3"
+        ],
+        "success_rate": 0.07401315789473684,
+        "num_founders": 608
+      },
+      {
+        "itemset": [
+          "childhood_entrepreneurship_1"
+        ],
+        "success_rate": 0.11659192825112108,
+        "num_founders": 892
+      },
+      {
+        "itemset": [
+          "ten_thousand_hours_of_mastery_1"
+        ],
+        "success_rate": 0.12910720212412877,
+        "num_founders": 3013
+      },
+      {
+        "itemset": [
+          "competitions_1"
+        ],
+        "success_rate": 0.08333333333333333,
+        "num_founders": 144
+      },
+      {
+        "itemset": [
+          "extroversion_1"
+        ],
+        "success_rate": 0.10098416773641421,
+        "num_founders": 2337
+      },
+      {
+        "itemset": [
+          "extroversion_2"
+        ],
+        "success_rate": 0.09794943260999403,
+        "num_founders": 5023
+      },
+      {
+        "itemset": [
+          "perseverance_1"
+        ],
+        "success_rate": 0.05859375,
+        "num_founders": 1024
+      },
+      {
+        "itemset": [
+          "perseverance_2"
+        ],
+        "success_rate": 0.10723270440251573,
+        "num_founders": 6360
+      },
+      {
+        "itemset": [
+          "risk_tolerance_1"
+        ],
+        "success_rate": 0.09735269000853972,
+        "num_founders": 1171
+      },
+      {
+        "itemset": [
+          "risk_tolerance_2"
+        ],
+        "success_rate": 0.0956989247311828,
+        "num_founders": 6510
+      },
+      {
+        "itemset": [
+          "vision_1"
+        ],
+        "success_rate": 0.09550059594755661,
+        "num_founders": 6712
+      },
+      {
+        "itemset": [
+          "vision_2"
+        ],
+        "success_rate": 0.1251596424010217,
+        "num_founders": 783
+      },
+      {
+        "itemset": [
+          "adaptability_1"
+        ],
+        "success_rate": 0.06910994764397906,
+        "num_founders": 955
+      },
+      {
+        "itemset": [
+          "adaptability_2"
+        ],
+        "success_rate": 0.10243082097538603,
+        "num_founders": 6541
+      },
+      {
+        "itemset": [
+          "emotional_intelligence_1"
+        ],
+        "success_rate": 0.0881542699724518,
+        "num_founders": 2541
+      },
+      {
+        "itemset": [
+          "emotional_intelligence_2"
+        ],
+        "success_rate": 0.06774193548387097,
+        "num_founders": 1240
+      },
+      {
+        "itemset": [
+          "personal_branding_1"
+        ],
+        "success_rate": 0.0972815097730847,
+        "num_founders": 4451
+      },
+      {
+        "itemset": [
+          "persona_['L1', 'L2_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L1', 'L3_1']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L1']"
+        ],
+        "success_rate": 0.04328621908127209,
+        "num_founders": 1132
+      },
+      {
+        "itemset": [
+          "persona_['L2_1', 'L2_2']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_1']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_2', 'L2_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_2', 'L2_4']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_2', 'L2_5']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_2', 'L3_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_2']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L0']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L1']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L2_4']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L2_5']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L3_1']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L3_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3', 'L3_6']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_4', 'L2_2']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_4', 'L2_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_4', 'L2_6']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_4', 'L3_7']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_4']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_6', 'L3_6']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L2_6']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L3_1', 'L3_3']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "persona_['L3_1']"
+        ],
+        "success_rate": 0.09090909090909091,
+        "num_founders": 8800
+      },
+      {
+        "itemset": [
+          "founder_experience_unit"
+        ],
+        "success_rate": 0.13733333333333334,
+        "num_founders": 1500
+      }
+    ],
+    "high_success": [
+      {
+        "itemset": [
+          "education_institution_4"
+        ],
+        "success_rate": 0.20017873100983022,
+        "num_founders": 1119
+      },
+      {
+        "itemset": [
+          "industry_achievements_2"
+        ],
+        "success_rate": 0.18867924528301888,
+        "num_founders": 371
+      },
+      {
+        "itemset": [
+          "industry_achievements_3"
+        ],
+        "success_rate": 0.17197452229299362,
+        "num_founders": 157
+      },
+      {
+        "itemset": [
+          "nasdaq_company_experience_1"
+        ],
+        "success_rate": 0.18134715025906736,
+        "num_founders": 1930
+      },
+      {
+        "itemset": [
+          "big_tech_experience_1"
+        ],
+        "success_rate": 0.17447306791569087,
+        "num_founders": 854
+      },
+      {
+        "itemset": [
+          "microsoft_experience_1"
+        ],
+        "success_rate": 0.1728395061728395,
+        "num_founders": 162
+      },
+      {
+        "itemset": [
+          "apple_experience_1"
+        ],
+        "success_rate": 0.15,
+        "num_founders": 60
+      },
+      {
+        "itemset": [
+          "big_tech_position_1"
+        ],
+        "success_rate": 0.1452991452991453,
+        "num_founders": 117
+      },
+      {
+        "itemset": [
+          "big_tech_position_3"
+        ],
+        "success_rate": 0.1839080459770115,
+        "num_founders": 87
+      },
+      {
+        "itemset": [
+          "big_tech_position_4"
+        ],
+        "success_rate": 0.22807017543859648,
+        "num_founders": 342
+      },
+      {
+        "itemset": [
+          "big_tech_position_5"
+        ],
+        "success_rate": 0.2,
+        "num_founders": 40
+      },
+      {
+        "itemset": [
+          "worked_at_military_1"
+        ],
+        "success_rate": 0.16226415094339622,
+        "num_founders": 265
+      },
+      {
+        "itemset": [
+          "worked_at_bank_1"
+        ],
+        "success_rate": 0.14942528735632185,
+        "num_founders": 87
+      },
+      {
+        "itemset": [
+          "worked_at_bank_3"
+        ],
+        "success_rate": 0.1865671641791045,
+        "num_founders": 134
+      },
+      {
+        "itemset": [
+          "patents_inventions_2"
+        ],
+        "success_rate": 0.19444444444444445,
+        "num_founders": 108
+      },
+      {
+        "itemset": [
+          "technical_publications_2"
+        ],
+        "success_rate": 0.20833333333333334,
+        "num_founders": 96
+      },
+      {
+        "itemset": [
+          "big_leadership_1"
+        ],
+        "success_rate": 0.17391304347826086,
+        "num_founders": 207
+      },
+      {
+        "itemset": [
+          "big_leadership_2"
+        ],
+        "success_rate": 0.19078947368421054,
+        "num_founders": 304
+      },
+      {
+        "itemset": [
+          "nasdaq_leadership_1"
+        ],
+        "success_rate": 0.22018348623853212,
+        "num_founders": 218
+      },
+      {
+        "itemset": [
+          "nasdaq_leadership_2"
+        ],
+        "success_rate": 0.22,
+        "num_founders": 200
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_ceo_3"
+        ],
+        "success_rate": 0.20238095238095238,
+        "num_founders": 84
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_nonceo_3"
+        ],
+        "success_rate": 0.21875,
+        "num_founders": 32
+      },
+      {
+        "itemset": [
+          "VC_experience_1"
+        ],
+        "success_rate": 0.21232876712328766,
+        "num_founders": 292
+      },
+      {
+        "itemset": [
+          "angel_experience_1"
+        ],
+        "success_rate": 0.14427860696517414,
+        "num_founders": 402
+      },
+      {
+        "itemset": [
+          "quant_experience_2"
+        ],
+        "success_rate": 0.23376623376623376,
+        "num_founders": 77
+      },
+      {
+        "itemset": [
+          "board_advisor_roles_1"
+        ],
+        "success_rate": 0.19324796274738068,
+        "num_founders": 1718
+      },
+      {
+        "itemset": [
+          "significant_press_media_coverage_1"
+        ],
+        "success_rate": 0.1778975741239892,
+        "num_founders": 1113
+      },
+      {
+        "itemset": [
+          "founder_experience_multi"
+        ],
+        "success_rate": 0.1956043956043956,
+        "num_founders": 455
+      }
+    ],
+    "very_high_success": [
+      {
+        "itemset": [
+          "google_experience_1"
+        ],
+        "success_rate": 0.28901734104046245,
+        "num_founders": 173
+      },
+      {
+        "itemset": [
+          "facebook_meta_experience_1"
+        ],
+        "success_rate": 0.3225806451612903,
+        "num_founders": 31
+      },
+      {
+        "itemset": [
+          "worked_at_consultancy_3"
+        ],
+        "success_rate": 0.3076923076923077,
+        "num_founders": 104
+      },
+      {
+        "itemset": [
+          "bigtech_leadership_2"
+        ],
+        "success_rate": 0.29508196721311475,
+        "num_founders": 61
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_nonceo_2"
+        ],
+        "success_rate": 0.2765957446808511,
+        "num_founders": 47
+      },
+      {
+        "itemset": [
+          "VC_experience_2"
+        ],
+        "success_rate": 0.3,
+        "num_founders": 250
+      },
+      {
+        "itemset": [
+          "angel_experience_2"
+        ],
+        "success_rate": 0.2898550724637681,
+        "num_founders": 69
+      },
+      {
+        "itemset": [
+          "press_media_coverage_count_2"
+        ],
+        "success_rate": 0.26785714285714285,
+        "num_founders": 336
+      },
+      {
+        "itemset": [
+          "acquisition_experience_undisclosed"
+        ],
+        "success_rate": 0.2543352601156069,
+        "num_founders": 173
+      }
+    ],
+    "extremely_high_success": [
+      {
+        "itemset": [
+          "big_leadership_3"
+        ],
+        "success_rate": 0.4329896907216495,
+        "num_founders": 97
+      },
+      {
+        "itemset": [
+          "nasdaq_leadership_3"
+        ],
+        "success_rate": 0.6618705035971223,
+        "num_founders": 139
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_ceo_4"
+        ],
+        "success_rate": 0.6386554621848739,
+        "num_founders": 238
+      },
+      {
+        "itemset": [
+          "previous_startup_funding_experience_as_nonceo_4"
+        ],
+        "success_rate": 0.6764705882352942,
+        "num_founders": 68
+      },
+      {
+        "itemset": [
+          "investor_quality_prior_startup_2"
+        ],
+        "success_rate": 0.3927272727272727,
+        "num_founders": 550
+      },
+      {
+        "itemset": [
+          "tier_1_VC_experience_1"
+        ],
+        "success_rate": 0.46601941747572817,
+        "num_founders": 103
+      },
+      {
+        "itemset": [
+          "ipo_experience_True"
+        ],
+        "success_rate": 0.5161290322580645,
+        "num_founders": 31
+      }
+    ],
+    "very_low_success": [
+      {
+        "itemset": [
+          "persona_['L0']"
+        ],
+        "success_rate": 0.03262955854126679,
+        "num_founders": 521
+      }
+    ]
+  },
+  "statistics": {
+    "mean_success": 0.14171363988889146,
+    "std_success": 0.10655839512423618
+  }
+}
