@@ -1,0 +1,22 @@
+|--- previous_startup_funding_experience_as_ceo <= 4.01
+|   |--- VC_experience <= 3.79
+|   |   |--- nasdaq_leadership <= 0.77
+|   |   |   |--- class: 0
+|   |   |--- nasdaq_leadership >  0.77
+|   |   |   |--- class: 0
+|   |--- VC_experience >  3.79
+|   |   |--- number_of_roles <= 0.29
+|   |   |   |--- class: 0
+|   |   |--- number_of_roles >  0.29
+|   |   |   |--- class: 0
+|--- previous_startup_funding_experience_as_ceo >  4.01
+|   |--- nasdaq_company_experience <= 0.68
+|   |   |--- yoe <= 0.03
+|   |   |   |--- class: 1
+|   |   |--- yoe >  0.03
+|   |   |   |--- class: 0
+|   |--- nasdaq_company_experience >  0.68
+|   |   |--- yoe <= 0.26
+|   |   |   |--- class: 1
+|   |   |--- yoe >  0.26
+|   |   |   |--- class: 1

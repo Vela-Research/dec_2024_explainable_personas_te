@@ -1,0 +1,22 @@
+|--- education_institution <= 1.26
+|   |--- career_growth <= -0.82
+|   |   |--- childhood_entrepreneurship <= 1.32
+|   |   |   |--- class: 0
+|   |   |--- childhood_entrepreneurship >  1.32
+|   |   |   |--- class: 0
+|   |--- career_growth >  -0.82
+|   |   |--- technical_leadership_roles <= 0.26
+|   |   |   |--- class: 0
+|   |   |--- technical_leadership_roles >  0.26
+|   |   |   |--- class: 0
+|--- education_institution >  1.26
+|   |--- education_field_of_study <= 0.47
+|   |   |--- yoe <= -0.43
+|   |   |   |--- class: 0
+|   |   |--- yoe >  -0.43
+|   |   |   |--- class: 0
+|   |--- education_field_of_study >  0.47
+|   |   |--- yoe <= -0.80
+|   |   |   |--- class: 0
+|   |   |--- yoe >  -0.80
+|   |   |   |--- class: 0
