@@ -115,122 +115,117 @@ class TwoStageFounderAnalysis:
         self.subcluster_paths = {}
 
         for cluster in range(self.n_main_clusters):
-            try:
-                print(f"\nStarting to process main cluster {cluster + 1}")
-                subcluster_counter = 1
+            print(f"\nStarting to process main cluster {cluster + 1}")
+            subcluster_counter = 1
 
-                # Get data for this main cluster
-                mask = main_cluster_labels == cluster
-                X_cluster = X[mask]
-                y_cluster = df[self.success_column].values[mask]
-                df_cluster = df[mask]
+            # Get data for this main cluster
+            mask = main_cluster_labels == cluster
+            X_cluster = X[mask]
+            y_cluster = df[self.success_column].values[mask]
+            df_cluster = df[mask]
 
-                print(f"Cluster {cluster + 1} size: {len(X_cluster)}")
+            print(f"Cluster {cluster + 1} size: {len(X_cluster)}")
 
-                if len(X_cluster) < self.min_subcluster_size:
-                    print(f"Cluster {cluster + 1} too small, skipping...")
-                    continue
-
-                # Create decision tree
-                print(f"Creating decision tree for cluster {cluster + 1}")
-                tree = DecisionTreeClassifier(
-                    min_samples_leaf=self.min_subcluster_size,
-                    max_depth=3,
-                    random_state=42
-                )
-
-                if len(np.unique(y_cluster)) < 2:
-                    print(f"Cluster {cluster + 1} has only one class, skipping...")
-                    continue
-
-                print("Fitting decision tree...")
-                tree.fit(X_cluster, y_cluster)
-                self.cluster_trees[cluster] = tree
-
-                print("\nDecision Tree Info:")
-                print(f"Number of nodes: {tree.tree_.node_count}")
-                print(f"Number of features: {tree.tree_.n_features}")
-                print(f"Max depth: {tree.get_depth()}")
-
-                print("Getting leaf node information...")
-                leaf_ids = tree.apply(X_cluster)
-                unique_leaves = np.unique(leaf_ids)
-                print(f"Number of unique leaves: {len(unique_leaves)}")
-                print(f"Leaf IDs: {unique_leaves}")
-
-                print("\nDecision tree rules:")
-                tree_rules = export_text(tree, feature_names=self.feature_names)
-                print(tree_rules)
-
-                # Process each leaf node
-                for leaf in unique_leaves:
-                    print(f"\nProcessing leaf {leaf}")
-                    try:
-                        leaf_mask = leaf_ids == leaf
-                        leaf_samples = X_cluster[leaf_mask]
-                        leaf_y = y_cluster[leaf_mask]
-                        leaf_df = df_cluster[leaf_mask]
-
-                        if len(leaf_samples) < self.min_subcluster_size:
-                            print(f"Leaf size {len(leaf_samples)} too small, skipping...")
-                            continue
-
-                        # Calculate metrics
-                        success_rate = leaf_y.mean()
-                        print(f"Leaf success rate: {success_rate:.3f}")
-
-                        subcluster_id = f"{cluster + 1}.{subcluster_counter}"
-                        print(f"Creating subcluster {subcluster_id}")
-
-                        # Get and store decision path
-                        try:
-                            path = self._get_decision_path(tree, leaf)
-                            transformed_path = self._transform_path_thresholds(path, cluster)
-                            self.subcluster_paths[subcluster_id] = transformed_path
-                        except Exception as e:
-                            print(f"Error in path calculation: {str(e)}")
-                            self.subcluster_paths[subcluster_id] = "Path calculation error"
-
-                        # Calculate feature statistics
-                        feature_stats = self._calculate_feature_stats(leaf_df, df)
-
-                        results.append({
-                            'main_cluster_id': cluster + 1,
-                            'subcluster_id': subcluster_id,
-                            'size': len(leaf_samples),
-                            'success_count': leaf_y.sum(),
-                            'success_rate': success_rate,
-                            'normalized_success_rate': success_rate * (
-                                    self.real_world_success_rate / self.dataset_success_rate),
-                            'significant_features': feature_stats
-                        })
-
-                        subcluster_counter += 1
-                    except Exception as e:
-                        print(f"Error processing leaf {leaf}: {str(e)}")
-
-                viz_tree = deepcopy(tree)
-                for i in range(viz_tree.tree_.node_count):
-                    if viz_tree.tree_.feature[i] >= 0:
-                        feature_idx = viz_tree.tree_.feature[i]
-                        viz_tree.tree_.threshold[i] = (
-                                viz_tree.tree_.threshold[i] * self.scaler.scale_[feature_idx] +
-                                self.scaler.mean_[feature_idx]
-                        )
-                        
-                plt.figure(figsize=(20, 10))
-                plot_tree(viz_tree,
-                          feature_names=self.feature_names,
-                          class_names=['Failure', 'Success'],
-                          filled=True,
-                          rounded=True,
-                          fontsize=10)
-                plt.savefig(f'decision_tree_cluster_{cluster + 1}.png', bbox_inches='tight', dpi=300)
-                plt.close()
-
-            except Exception as e:
-                print(f"Error processing cluster {cluster + 1}: {str(e)}")
+            if len(X_cluster) < self.min_subcluster_size:
+                print(f"Cluster {cluster + 1} too small, skipping...")
                 continue
+
+            # Create decision tree
+            print(f"Creating decision tree for cluster {cluster + 1}")
+            tree = DecisionTreeClassifier(
+                min_samples_leaf=self.min_subcluster_size,
+                max_depth=3,
+                random_state=42
+            )
+
+            if len(np.unique(y_cluster)) < 2:
+                print(f"Cluster {cluster + 1} has only one class, skipping...")
+                continue
+
+            print("Fitting decision tree...")
+            tree.fit(X_cluster, y_cluster)
+            self.cluster_trees[cluster] = tree
+
+            print("\nDecision Tree Info:")
+            print(f"Number of nodes: {tree.tree_.node_count}")
+            print(f"Number of features: {tree.tree_.n_features}")
+            print(f"Max depth: {tree.get_depth()}")
+
+            print("Getting leaf node information...")
+            leaf_ids = tree.apply(X_cluster)
+            unique_leaves = np.unique(leaf_ids)
+            print(f"Number of unique leaves: {len(unique_leaves)}")
+            print(f"Leaf IDs: {unique_leaves}")
+
+            print("\nDecision tree rules:")
+            tree_rules = export_text(tree, feature_names=self.feature_names)
+            print(tree_rules)
+
+            # Process each leaf node
+            for leaf in unique_leaves:
+                print(f"\nProcessing leaf {leaf}")
+                try:
+                    leaf_mask = leaf_ids == leaf
+                    leaf_samples = X_cluster[leaf_mask]
+                    leaf_y = y_cluster[leaf_mask]
+                    leaf_df = df_cluster[leaf_mask]
+
+                    if len(leaf_samples) < self.min_subcluster_size:
+                        print(f"Leaf size {len(leaf_samples)} too small, skipping...")
+                        continue
+
+                    # Calculate metrics
+                    success_rate = leaf_y.mean()
+                    print(f"Leaf success rate: {success_rate:.3f}")
+
+                    subcluster_id = f"{cluster + 1}.{subcluster_counter}"
+                    print(f"Creating subcluster {subcluster_id}")
+
+                    # Get and store decision path
+                    try:
+                        path = self._get_decision_path(tree, leaf)
+                        transformed_path = self._transform_path_thresholds(path, cluster)
+                        self.subcluster_paths[subcluster_id] = transformed_path
+                    except Exception as e:
+                        print(f"Error in path calculation: {str(e)}")
+                        self.subcluster_paths[subcluster_id] = "Path calculation error"
+
+                    # Calculate feature statistics
+                    feature_stats = self._calculate_feature_stats(leaf_df, df)
+
+                    results.append({
+                        'main_cluster_id': cluster + 1,
+                        'subcluster_id': subcluster_id,
+                        'size': len(leaf_samples),
+                        'success_count': leaf_y.sum(),
+                        'success_rate': success_rate,
+                        'normalized_success_rate': success_rate * (
+                                self.real_world_success_rate / self.dataset_success_rate),
+                        'significant_features': feature_stats
+                    })
+
+                    subcluster_counter += 1
+                except Exception as e:
+                    print(f"Error processing leaf {leaf}: {str(e)}")
+
+            viz_tree = deepcopy(tree)
+            for i in range(viz_tree.tree_.node_count):
+                if viz_tree.tree_.feature[i] >= 0:
+                    feature_idx = viz_tree.tree_.feature[i]
+                    viz_tree.tree_.threshold[i] = (
+                            viz_tree.tree_.threshold[i] * self.scaler.scale_[feature_idx] +
+                            self.scaler.mean_[feature_idx]
+                    )
+
+            plt.figure(figsize=(20, 10))
+            plot_tree(viz_tree,
+                      feature_names=self.feature_names,
+                      class_names=['Failure', 'Success'],
+                      filled=True,
+                      rounded=True,
+                      fontsize=10)
+            plt.savefig(f'decision_tree_cluster_{cluster + 1}.png', bbox_inches='tight', dpi=300)
+            plt.close()
 
         print("\nSubcluster creation completed")
         print(f"Total number of subclusters created: {len(results)}")
@@ -477,57 +472,6 @@ class TwoStageFounderAnalysis:
 
         return main_summary, sub_summary
 
-    def get_decision_path(self, tree, feature_names, leaf_id):
-        """Get decision path to a specific leaf node with sample counts and purity at each step"""
-        n_nodes = tree.tree_.node_count
-        children_left = tree.tree_.children_left
-        children_right = tree.tree_.children_right
-        feature = tree.tree_.feature
-        threshold = tree.tree_.threshold
-        values = tree.tree_.value
-        gini = tree.tree_.impurity
-
-        # Find path from root to target leaf node
-        path = []
-        node_id = 0  # Start from root
-        current_path = []
-
-        while node_id != leaf_id:
-            # Get current node information
-            fail_samples = int(values[node_id][0][0])
-            success_samples = int(values[node_id][0][1])
-            current_gini = gini[node_id]
-
-            # Get feature name and threshold for current node
-            feature_idx = feature[node_id]
-            feature_name = feature_names[feature_idx]
-
-            original_threshold = (
-                    threshold[node_id] * self.scaler.scale_[feature_idx] +
-                    self.scaler.mean_[feature_idx]
-            )
-
-            # Create node info
-            node_info = (f"{feature_name} (fail: {fail_samples}, success: {success_samples}, "
-                         f"gini: {current_gini:.3f})")
-            current_path.append(node_info)
-
-            # Determine path direction
-            if leaf_id in self._get_descendants(children_left, node_id):
-                path.append(current_path[-1] + f" <= {original_threshold:.2f}")
-                node_id = children_left[node_id]
-            else:
-                path.append(current_path[-1] + f" > {original_threshold:.2f}")
-                node_id = children_right[node_id]
-
-        # Add leaf node information
-        fail_samples = int(values[leaf_id][0][0])
-        success_samples = int(values[leaf_id][0][1])
-        leaf_gini = gini[leaf_id]
-        path.append(f"Final Node: fail: {fail_samples}, success: {success_samples}, gini: {leaf_gini:.3f}")
-
-        return " → ".join(path)
-
     def _get_descendants(self, children_array, node_id):
         """Get all descendant nodes of a node"""
         descendants = []
@@ -771,52 +715,12 @@ class TwoStageFounderAnalysis:
         print("\nAnalysis complete!")
         return main_cluster_results, subcluster_results, main_cluster_labels
 
-    def extract_decision_path(self, tree, feature_names, leaf_id):
-        """Extract the decision path leading to a specific leaf node"""
-        n_nodes = tree.tree_.node_count
-        children_left = tree.tree_.children_left
-        children_right = tree.tree_.children_right
-        feature = tree.tree_.feature
-        threshold = tree.tree_.threshold
-
-        # Find the path to the leaf
-        node_id = 0  # Start from root
-        path = []
-        while node_id != leaf_id:
-            # Get feature and threshold for this node
-            feature_name = feature_names[feature[node_id]]
-            threshold_value = threshold[node_id]
-
-            # Check if we should go left or right
-            if leaf_id in self._get_all_children(children_left, node_id):
-                path.append(f"{feature_name} <= {threshold_value:.2f}")
-                node_id = children_left[node_id]
-            else:
-                path.append(f"{feature_name} > {threshold_value:.2f}")
-                node_id = children_right[node_id]
-
-        return " AND ".join(path)
-
-    def _get_all_children(self, children_array, node_id):
-        """Helper function to get all children of a node"""
-        children = []
-        to_visit = [children_array[node_id]]
-
-        while to_visit:
-            current = to_visit.pop()
-            if current != -1:  # -1 indicates leaf
-                children.append(current)
-                if current < len(children_array):
-                    to_visit.append(children_array[current])
-
-        return children
-
 
 df = pd.read_csv("(December 2024)_ Founders data - feature_engineered.csv")
 
 analyzer = TwoStageFounderAnalysis(
     n_main_clusters=5,
-    min_subcluster_size=30,
+    min_subcluster_size=20,
     real_world_success_rate=0.019
 
 )
