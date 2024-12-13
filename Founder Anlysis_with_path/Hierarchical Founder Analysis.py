@@ -7,6 +7,8 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
 import matplotlib.pyplot as plt
 from copy import deepcopy
+
+
 class TwoStageFounderAnalysis:
     def __init__(self, n_main_clusters=5, min_subcluster_size=15,
                  real_world_success_rate=0.019, success_column='success'):
@@ -207,8 +209,17 @@ class TwoStageFounderAnalysis:
                     except Exception as e:
                         print(f"Error processing leaf {leaf}: {str(e)}")
 
+                viz_tree = deepcopy(tree)
+                for i in range(viz_tree.tree_.node_count):
+                    if viz_tree.tree_.feature[i] >= 0:
+                        feature_idx = viz_tree.tree_.feature[i]
+                        viz_tree.tree_.threshold[i] = (
+                                viz_tree.tree_.threshold[i] * self.scaler.scale_[feature_idx] +
+                                self.scaler.mean_[feature_idx]
+                        )
+                        
                 plt.figure(figsize=(20, 10))
-                plot_tree(tree,
+                plot_tree(viz_tree,
                           feature_names=self.feature_names,
                           class_names=['Failure', 'Success'],
                           filled=True,
