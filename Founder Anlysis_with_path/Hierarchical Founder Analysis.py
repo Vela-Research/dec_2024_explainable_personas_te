@@ -145,7 +145,6 @@ class TwoStageFounderAnalysis:
                 tree.fit(X_cluster, y_cluster)
                 self.cluster_trees[cluster] = tree
 
-                # 打印树的基本信息
                 print("\nDecision Tree Info:")
                 print(f"Number of nodes: {tree.tree_.node_count}")
                 print(f"Number of features: {tree.tree_.n_features}")
@@ -157,7 +156,6 @@ class TwoStageFounderAnalysis:
                 print(f"Number of unique leaves: {len(unique_leaves)}")
                 print(f"Leaf IDs: {unique_leaves}")
 
-                # 先导出决策树规则，方便对照
                 print("\nDecision tree rules:")
                 tree_rules = export_text(tree, feature_names=self.feature_names)
                 print(tree_rules)
@@ -209,7 +207,6 @@ class TwoStageFounderAnalysis:
                     except Exception as e:
                         print(f"Error processing leaf {leaf}: {str(e)}")
 
-                # 最后保存决策树可视化
                 plt.figure(figsize=(20, 10))
                 plot_tree(tree,
                           feature_names=self.feature_names,
@@ -340,7 +337,6 @@ class TwoStageFounderAnalysis:
         """Get the decision path for a specific leaf"""
         print(f"Getting decision path for leaf {leaf_id}")
 
-        # 打印树的结构以便调试
         print("\nTree structure:")
         n_nodes = tree.tree_.node_count
         children_left = tree.tree_.children_left
@@ -350,26 +346,22 @@ class TwoStageFounderAnalysis:
 
         print("node_id, feature, threshold, left_child, right_child")
         for i in range(n_nodes):
-            if feature[i] >= 0:  # 非叶子节点
+            if feature[i] >= 0: 
                 print(f"Node {i}: feature={self.feature_names[feature[i]]}, "
                       f"threshold={threshold[i]:.3f}, "
                       f"left_child={children_left[i]}, "
                       f"right_child={children_right[i]}")
 
-        # 找到从根到叶子的路径
-        node_id = 0  # 从根节点开始
+        node_id = 0 
         path = []
 
         while True:
-            # 如果当前节点是叶子节点，结束
             if children_left[node_id] == -1 and children_right[node_id] == -1:
                 break
 
-            # 获取当前节点的特征和阈值
             feature_idx = feature[node_id]
             node_threshold = threshold[node_id]
 
-            # 检查下一个节点应该是左子节点还是右子节点
             if self._is_leaf_in_subtree(leaf_id, children_left[node_id], children_left, children_right):
                 path.append(f"{self.feature_names[feature_idx]} <= {node_threshold:.3f}")
                 node_id = children_left[node_id]
@@ -380,13 +372,11 @@ class TwoStageFounderAnalysis:
         return " AND ".join(path)
 
     def _is_leaf_in_subtree(self, leaf_id, subtree_root, children_left, children_right):
-        """检查叶子节点是否在给定的子树中"""
         if subtree_root == -1:
             return False
         if subtree_root == leaf_id:
             return True
-
-        # 递归检查左右子树
+            
         return (self._is_leaf_in_subtree(leaf_id, children_left[subtree_root], children_left, children_right) or
                 self._is_leaf_in_subtree(leaf_id, children_right[subtree_root], children_left, children_right))
     def generate_summary_tables(self, main_clusters, subclusters):
@@ -545,10 +535,8 @@ class TwoStageFounderAnalysis:
         """Save summary tables to files and console with improved formatting"""
         print("\nSaving results...")
         with pd.ExcelWriter('founder_clusters_analysis.xlsx', engine='xlsxwriter') as writer:
-            # 获取workbook对象以设置格式
             workbook = writer.book
 
-            # 定义格式
             header_format = workbook.add_format({
                 'bold': True,
                 'bg_color': '#D9E1F2',
@@ -573,25 +561,21 @@ class TwoStageFounderAnalysis:
                 'align': 'left'
             })
 
-            # 基本单元格格式
             cell_format = workbook.add_format({
                 'text_wrap': True,
                 'valign': 'vcenter',
                 'align': 'left'
             })
 
-            # 数字列格式
             number_format = workbook.add_format({
                 'text_wrap': True,
                 'valign': 'vcenter',
-                'align': 'right'  # 数字右对齐
+                'align': 'right'  
             })
 
-            # 写入主集群表
             main_summary.to_excel(writer, sheet_name='Main Clusters', index=False)
             worksheet = writer.sheets['Main Clusters']
 
-            # 设置列宽和格式
             column_widths = {
                 'Cluster ID': 12,
                 'Total Count': 12,
@@ -600,14 +584,12 @@ class TwoStageFounderAnalysis:
                 'Normalized Success Rate': 15,
                 'Relative % of Success': 15,
                 'Relative % of Total': 15,
-                'Key Characteristics': 50,  # 增加宽度
+                'Key Characteristics': 50, 
             }
 
-            # 写入子集群表
             sub_summary.to_excel(writer, sheet_name='Subclusters', index=False)
             worksheet = writer.sheets['Subclusters']
 
-            # 设置子集群表的列宽和格式
             subcluster_widths = {
                 'Main Cluster': 12,
                 'Subcluster ID': 12,
@@ -617,15 +599,13 @@ class TwoStageFounderAnalysis:
                 'Normalized Success Rate': 15,
                 'Relative % of Success': 15,
                 'Relative % of Total': 15,
-                'Key Characteristics': 50,  # 增加宽度
+                'Key Characteristics': 50,  
             }
 
-            # 写入层级视图
             hierarchical_df = self.generate_hierarchical_table(main_summary, sub_summary)
             hierarchical_df.to_excel(writer, sheet_name='Hierarchical View', index=False)
             worksheet = writer.sheets['Hierarchical View']
 
-            # 设置层级视图的列宽和格式
             hierarchical_widths = {
                 'Cluster Level': 12,
                 'Cluster ID': 15,
@@ -635,53 +615,40 @@ class TwoStageFounderAnalysis:
                 'Normalized Success Rate': 15,
                 'Relative % of Success': 15,
                 'Relative % of Total': 15,
-                'Key Characteristics': 50,  # 增加宽度
-                'Decision Path': 60  # 增加决策路径列宽度
+                'Key Characteristics': 50,  
+                'Decision Path': 60 
             }
 
-            # 需要右对齐的数字列
             number_columns = ['Total Count', 'Success Count', 'Success Probability',
                               'Normalized Success Rate', 'Relative % of Success', 'Relative % of Total']
 
-            # 应用格式到层级视图
             for idx, col in enumerate(hierarchical_df.columns):
-                # 设置列宽
                 width = hierarchical_widths.get(col, 15)
-                # 选择合适的格式（数字列使用右对齐）
                 format_to_use = number_format if col in number_columns else cell_format
                 worksheet.set_column(idx, idx, width, format_to_use)
-                # 设置表头格式
                 worksheet.write(0, idx, col, header_format)
 
-            # 计算每行所需的最小高度
             for row_num in range(1, len(hierarchical_df) + 1):
-                # 获取Key Characteristics和Decision Path的内容长度
                 key_char = str(hierarchical_df.iloc[row_num - 1]['Key Characteristics'])
                 decision_path = str(hierarchical_df.iloc[row_num - 1]['Decision Path'])
 
-                # 计算所需行数（假设每50个字符需要一行）
                 key_char_lines = len(key_char) // 45 + 1
                 decision_path_lines = len(decision_path) // 55 + 1
                 needed_lines = max(key_char_lines, decision_path_lines)
 
-                # 设置行高（每行20点）
-                row_height = max(60, needed_lines * 20)  # 最小高度为60
+                row_height = max(60, needed_lines * 20) 
                 worksheet.set_row(row_num, row_height)
 
-                # 应用适当的格式
                 format_to_use = main_format if hierarchical_df.iloc[row_num - 1][
                                                    'Cluster Level'] == 'Main' else sub_format
                 for col_num in range(len(hierarchical_df.columns)):
                     value = hierarchical_df.iloc[row_num - 1][hierarchical_df.columns[col_num]]
-                    # 数字列使用右对齐
                     if hierarchical_df.columns[col_num] in number_columns:
                         format_to_use = number_format
                     worksheet.write(row_num, col_num, value, format_to_use)
 
-            # 设置表头行高
-            worksheet.set_row(0, 40)  # 表头高度
+            worksheet.set_row(0, 40) 
 
-            # 冻结首行
             worksheet.freeze_panes(1, 0)
 
         print("Results saved to 'founder_clusters_analysis.xlsx' with improved formatting")
