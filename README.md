@@ -1,4 +1,5 @@
-# Feature_Engineering Please use the program in Founder_Analysis_after_resampling
+# Feature_Engineering 
+# Please use the program in Founder_Analysis_after_resampling
 Clustering and Predict  Entrepreneur
 
 1. Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis.py in the Founder_Analysis_after_resampling dir.)
