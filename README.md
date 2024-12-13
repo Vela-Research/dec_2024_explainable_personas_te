@@ -1,7 +1,7 @@
 # Feature_Engineering
 Clustering and Predict  Entrepreneur
 
-1. Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis.py in the Founder Analysis_with_path dir.)
+1. Based on hierarchical clustering and decision tree (Hierarchical Founder Analysis.py in the Founder_Analysis_after_resampling dir.)
 
 2. Based on association rules mining (main.py)
 
