@@ -105,16 +105,16 @@ main_clusters, subclusters, labels = analyzer.fit_transform(df)
 
 # Example:  
 
-     ```python
-     new_entrepreneur = pd.DataFrame([{
-         "feature1": 0.5,
-         "feature2": 2.0,
-         "feature3": -1.0
-     }])
-     results = analyzer.classify_new_founder(new_founder)
-     ```
+```python
+new_entrepreneur = pd.DataFrame([{
+   "feature1": 0.5,
+   "feature2": 2.0,
+   "feature3": -1.0
+}])
+results = analyzer.classify_new_founder(new_founder)
+```
 
-     ### Example Output
+### Example Output
 
 When you run the classifier, you'll get detailed results like this:
 
